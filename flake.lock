@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "firefox-css": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1792208757,
+        "narHash": "sha256-ZzupyIuTnr9wIjUNkJJexAB/hidZyveFE6f8Ry2Z844=",
+        "owner": "Yeove",
+        "repo": "Yeoves_Custom_Firefox_CSS",
+        "rev": "4421c5dc31d739394d4750acc3715a249f66dbd9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Yeove",
+        "repo": "Yeoves_Custom_Firefox_CSS",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -38,6 +54,7 @@
     },
     "root": {
       "inputs": {
+        "firefox-css": "firefox-css",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs"
       }

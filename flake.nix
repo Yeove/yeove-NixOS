@@ -3,11 +3,20 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    
 
     home-manager = {
       url = "github:nix-community/home-manager"; # master tracks unstable
       inputs.nixpkgs.follows = "nixpkgs"; # HM must track the same release as nixpkgs
     };
+        
+    # Your Firefox CSS repo. Only the AutoConfig loader (yeovefirefox.cfg) is
+    # read from here; the chrome folder is symlinked from a local clone.
+    firefox-css = {
+      url = "github:Yeove/Yeoves_Custom_Firefox_CSS";
+      flake = false;
+    };
+    
   };
 
   outputs =

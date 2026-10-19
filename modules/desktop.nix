@@ -1,5 +1,5 @@
 # GNOME on Wayland, fonts, and the apps that need a NixOS module to work.
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   # GNOME itself is Wayland-only now, but the NVIDIA module still keys its
@@ -21,7 +21,20 @@
     maple-mono.truetype
   ];
 
-  programs.firefox.enable = true;
+  programs.firefox = {
+    enable = true;
+
+    # Your userChrome.js loader. The Nix store is read-only, so instead of
+    # symlinking into Firefox's install folder (the Windows way), the wrapper
+    # bakes yeovefirefox.cfg into Firefox's AutoConfig. Same effect.
+    package = pkgs.firefox.override {
+      extraAutoConfig = ''pref("general.config.sandbox_enabled", false);'';
+    };
+    autoConfigFiles = [ "${inputs.firefox-css}/yeovefirefox.cfg" ];
+
+    # README step 1, done declaratively.
+    preferences."toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+  };
   programs.neovim.enable = true;
   programs.steam.enable = true; # also installs the udev rules SteamVR / Vive trackers need
 

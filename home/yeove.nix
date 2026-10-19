@@ -1,7 +1,15 @@
 # Yeove's own layer: apps and GNOME extensions. Nothing here needs root, and
 # someone on a second seat would get their own file like this one.
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
+let
+  # Machine-specific: your profile folder, relative to ~
+  # (about:support -> Profile Folder).
+  firefoxProfile = ".mozilla/firefox/lflohisp.default";
+
+  # Where you cloned github.com/Yeove/Yeoves_Custom_Firefox_CSS
+  firefoxCssRepo = "${config.home.homeDirectory}/Projects/Yeoves_Custom_Firefox_CSS";
+in
 {
   home.stateVersion = "26.05"; # the HM release this started on; leave it alone from now on
 
@@ -10,7 +18,7 @@
     pkgsCuda.blender # Cycles with CUDA + OptiX, without making all of nixpkgs CUDA
     davinci-resolve
     krita
-  # pureref # upstream download currently fails its checksum; re-enable after a `nix flake update`
+    # pureref # upstream download currently fails its checksum; re-enable after a `nix flake update`
     godot
 
     # Photos and files
@@ -62,4 +70,9 @@
       ]
     );
   };
+
+  # <profile>/chrome -> the chrome folder in your local clone. A live link,
+  # not a copy: edit or git pull in the clone, restart Firefox, done.
+  home.file."${firefoxProfile}/chrome".source =
+    config.lib.file.mkOutOfStoreSymlink "${firefoxCssRepo}/chrome";
 }
