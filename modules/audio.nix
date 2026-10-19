@@ -27,30 +27,21 @@
     # Virtual mic (the VB-Cable replacement). One loopback, two faces:
     #   sink   "OBS Virtual Mic" -> set as OBS's Monitoring Device
     #   source "OBS Virtual Mic" -> pick as the input device in Discord
+
+     # Virtual mic (the VB-Cable replacement): one device that is both an
+    # output (OBS monitors into it) and an input (Discord records from it).
     extraConfig.pipewire."99-obs-virtmic" = {
-      "context.modules" = [
+      "context.objects" = [
         {
-          name = "libpipewire-module-loopback";
+          factory = "adapter";
           args = {
+            "factory.name" = "support.null-audio-sink";
+            "node.name" = "obs_virtmic";
             "node.description" = "OBS Virtual Mic";
-            "capture.props" = {
-              "node.name" = "obs_virtmic_sink";
-              "node.description" = "OBS Virtual Mic";
-              "media.class" = "Audio/Sink";
-              "audio.position" = [
-                "FL"
-                "FR"
-              ];
-            };
-            "playback.props" = {
-              "node.name" = "obs_virtmic_source";
-              "node.description" = "OBS Virtual Mic";
-              "media.class" = "Audio/Source/Virtual";
-              "audio.position" = [
-                "FL"
-                "FR"
-              ];
-            };
+            "media.class" = "Audio/Duplex";
+            "audio.position" = [ "FL" "FR" ];
+            "monitor.channel-volumes" = true;
+            "monitor.passthrough" = true;
           };
         }
       ];
@@ -85,3 +76,6 @@
     pavucontrol # per-app device picker
   ];
 }
+
+
+

@@ -29,6 +29,7 @@
     # Recording and audio
     obs-studio
     polyphone
+    audacity
 
     # Playback
     mpv
