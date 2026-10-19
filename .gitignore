@@ -1,0 +1,6 @@
+# build-result symlinks
+result
+result-*
+
+# secrets never go in this repo
+*secret*
