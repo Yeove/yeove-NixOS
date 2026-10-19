@@ -36,6 +36,22 @@
         "type": "github"
       }
     },
+    "momentum-nav": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1790810484,
+        "narHash": "sha256-t+0yODadPN6KP/9ZNhOcHOI19qMDeHQrTLlox8D5GrY=",
+        "owner": "Yeove",
+        "repo": "VSCode_Addon_MomentumNavigation",
+        "rev": "8489d9e14a45a3f5c73d378dd458774509a248e2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Yeove",
+        "repo": "VSCode_Addon_MomentumNavigation",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1792094642,
@@ -56,6 +72,7 @@
       "inputs": {
         "firefox-css": "firefox-css",
         "home-manager": "home-manager",
+        "momentum-nav": "momentum-nav",
         "nixpkgs": "nixpkgs"
       }
     }
