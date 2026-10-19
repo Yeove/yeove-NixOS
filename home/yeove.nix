@@ -12,6 +12,16 @@ let
 in
 {
   home.stateVersion = "26.05"; # the HM release this started on; leave it alone from now on
+  
+  
+  imports = [ ./digikam-intake ];
+
+  # Stamps source URLs from the Firefox userscript and files them into the NAS library
+  services.digikamIntake = {
+    enable = true;
+    outputDir = "/mnt/NAS/Pictures-VisualArts";
+  };
+  
 
   home.packages = with pkgs; [
     # 3D, video, art
