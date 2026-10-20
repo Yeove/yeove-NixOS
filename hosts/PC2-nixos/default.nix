@@ -9,6 +9,7 @@
   imports = [
     ./hardware-configuration.nix
     ./bluetooth.nix
+    ./wacom.nix
     ../../modules/base.nix
     ../../modules/desktop.nix
     ../../modules/nvidia.nix
@@ -68,7 +69,7 @@
   # Keeps circles round when the tablet is mapped across both monitors.
   programs.dconf.profiles.user.databases = [
     {
-      settings."org/gnome/desktop/peripherals/tablets/056a:0357".keep-aspect = true;
+      settings."org/gnome/desktop/peripherals/tablets/056a:0357".keep-aspect = false; #we keep this false, since we have the wacom.nix file do the actual aspect ratio changes
     }
   ];
 }
