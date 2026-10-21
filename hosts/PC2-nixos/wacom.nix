@@ -1,5 +1,5 @@
 # ════════════════════════════════════════════════════════════════════════
-#  Wacom PTH-660: pen active area anchored near the bottom of the tablet
+#  Wacom PTH-660: pen area near the bottom of the tablet, pad optional
 # ════════════════════════════════════════════════════════════════════════
 #
 #  WHY
@@ -18,16 +18,20 @@
 #    screenW, screenH   GNOME's desktop size in logical pixels. Only change
 #                       these if your monitor layout or scaling changes;
 #                       they set the area's height so circles stay round.
+#    disablePad         true = the ExpressKeys, touch ring and ring button
+#                       are ignored entirely, so no app sees them as clicks.
+#                       false = they work again (and show up in GNOME's
+#                       tablet settings for mapping).
 #
 #  APPLYING A CHANGE
 #    1. Edit the value(s).
-#    2. nh os switch
+#    2. sudo nixos-rebuild switch --flake ~/nix-config   (or: nh os switch)
 #    3. wacom-reload
 #
 #    wacom-reload reloads udev, unplugs and replugs the tablet in software,
-#    then prints what the kernel now reports for the pen next to what this
-#    file expects. If the tablet isn't on USB (e.g. Bluetooth), unplug and
-#    replug it by hand instead.
+#    then prints what the system now reports for the pen and pad next to
+#    what this file expects. If the tablet isn't on USB (e.g. Bluetooth),
+#    unplug and replug it by hand instead.
 #
 #  GOOD TO KNOW
 #    Hovering the pen over a dead zone parks the cursor on the nearest
@@ -43,11 +47,14 @@ let
   screenW = 3840;
   screenH = 1080;
 
+  disablePad = true;
+
   # ── Tablet constants (from the kernel; don't change) ──────────────────
   tabletX = 44800; # 224 mm
   tabletY = 29600; # 148 mm
   unitsPerMm = 200;
   penName = "Wacom Intuos Pro M Pen";
+  padName = "Wacom Intuos Pro M Pad";
 
   # ── Derived ───────────────────────────────────────────────────────────
   stripH = tabletX * screenH / screenW; # area height: 12600 units = 63 mm
@@ -95,9 +102,19 @@ let
       fi
       sudo udevadm settle
 
-      echo "Expected: EVDEV_ABS_01=${range}  ID_INPUT_HEIGHT_MM=${toString (stripH / unitsPerMm)}"
-      echo "Kernel now reports:"
+      echo "Expected: EVDEV_ABS_01=${range}  ID_INPUT_HEIGHT_MM=${toString (stripH / unitsPerMm)}  pad ${if disablePad then "disabled" else "active"}"
+      echo "Pen now reports:"
       udevadm info "/dev/input/$ev" | grep -E 'EVDEV_ABS|_MM=' || true
+
+      pad=$(grep -A5 'Name="${padName}"' /proc/bus/input/devices | grep -o 'event[0-9]*' || true)
+      if [ -n "$pad" ]; then
+        padinfo=$(udevadm info "/dev/input/$pad")
+        if grep -q 'LIBINPUT_IGNORE_DEVICE=1' <<<"$padinfo"; then
+          echo "Pad now: disabled"
+        else
+          echo "Pad now: active"
+        fi
+      fi
     '';
   };
 in
@@ -117,6 +134,16 @@ in
     evdev:name:${penName}:*
       EVDEV_ABS_01=${range}
   '';
+
+  # Hide the pad (ExpressKeys + touch ring) from libinput, so GNOME never
+  # sees it and never forwards its buttons to apps
+  services.udev.extraRules =
+    if disablePad then
+      ''
+        ACTION!="remove", KERNEL=="event[0-9]*", ATTRS{name}=="${padName}", ENV{LIBINPUT_IGNORE_DEVICE}="1"
+      ''
+    else
+      "";
 
   environment.systemPackages = [ wacom-reload ];
 }

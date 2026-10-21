@@ -10,6 +10,7 @@
     ./hardware-configuration.nix
     ./bluetooth.nix
     ./wacom.nix
+    ./vr.nix
     ../../modules/base.nix
     ../../modules/desktop.nix
     ../../modules/nvidia.nix
