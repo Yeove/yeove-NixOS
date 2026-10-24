@@ -1,3 +1,8 @@
+# Random cmds I like to use
+
+
+
+
 # nix-config
 
 NixOS 26.05 + Home Manager for PC2-nixos.

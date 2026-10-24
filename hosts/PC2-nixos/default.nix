@@ -11,6 +11,7 @@
     ./bluetooth.nix
     ./wacom.nix
     ./vr.nix
+    ./folder-icons.nix
     ../../modules/base.nix
     ../../modules/desktop.nix
     ../../modules/nvidia.nix
