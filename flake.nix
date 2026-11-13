@@ -23,6 +23,13 @@
       url = "github:Yeove/VSCode_Addon_MomentumNavigation";
       flake = false;
     };
+
+    # FlooCast, the FlooGoo FMA120 dongle config app. Packaged by
+    # hosts/PC2-nixos/floocast.nix. Pull upstream changes with: nix flake update floocast
+    floocast = {
+      url = "github:Flairmesh/FlooCast";
+      flake = false;
+    };
   };
 
   outputs =

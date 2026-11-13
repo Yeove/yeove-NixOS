@@ -12,6 +12,7 @@
     ./wacom.nix
     ./vr.nix
     ./folder-icons.nix
+    ./floocast.nix
     ../../modules/base.nix
     ../../modules/desktop.nix
     ../../modules/nvidia.nix
@@ -34,7 +35,6 @@
     extraGroups = [
       "networkmanager"
       "wheel"
-      "dialout" # FlooCast: serial access to the FMA120 dongle (/dev/ttyACM*)
     ];
   };
 
