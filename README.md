@@ -19,10 +19,6 @@ New files are invisible to the flake until you `git add` them.
 Undo: pick an older generation in the boot menu, or
 `sudo nixos-rebuild switch --rollback`.
 
-## Not in this repo, on purpose
-
-    /etc/secrets/nas-smb   NAS login for the /mnt/NAS mount (root-only)
-
 ## Next NixOS release (26.11)
 
 Change both `26.05` URLs in flake.nix to `26.11`, run `nix flake update`,
