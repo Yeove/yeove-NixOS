@@ -34,6 +34,7 @@
     extraGroups = [
       "networkmanager"
       "wheel"
+      "dialout" # FlooCast: serial access to the FMA120 dongle (/dev/ttyACM*)
     ];
   };
 
