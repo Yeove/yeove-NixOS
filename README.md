@@ -1,8 +1,3 @@
-# Random cmds I like to use
-
-
-
-
 # nix-config
 
 NixOS 26.05 + Home Manager for PC2-nixos.
@@ -12,7 +7,7 @@ NixOS 26.05 + Home Manager for PC2-nixos.
     modules/             shared pieces: base, desktop, nvidia, audio, network, nas
     home/yeove.nix       apps and GNOME extensions
 
-## Everyday
+## Random cmds I like to use
 
     nh os switch         rebuild and activate, with a diff of what changed
     nh os boot           same, but takes effect on next boot (for big upgrades)
